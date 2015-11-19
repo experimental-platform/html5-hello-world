@@ -1,0 +1,39 @@
+worker_processes 1;
+daemon off;
+
+error_log /app/logs/error.log;
+
+events { worker_connections 128; }
+
+http {
+  log_format dokkuapp '$http_x_forwarded_for - $http_referer - [$time_local] "$request" $status $body_bytes_sent';
+  access_log /app/logs/access.log dokkuapp;
+  default_type application/octet-stream;
+
+  keepalive_timeout 30;
+
+  server {
+    listen 5000;
+    server_name localhost;
+    root /app;
+
+    location / {
+      index index.html index.htm;
+    }
+
+    location /indexed-directory {
+      autoindex on;
+    }
+
+    location /unindexed-directory {
+      autoindex off;
+    }
+
+    location /secured-directory {
+      auth_basic "Restricted";
+      auth_basic_user_file /app/secured-directory/.htpasswd;
+
+      autoindex on;
+    }
+  }
+}
