@@ -1,3 +1,7 @@
+# PHP "Hello World" Example for Experimental Platform
+
+## Usage
+
 ```
 git clone https://github.com/experimental-platform/nginx-hello-world.git
 cd nginx-hello-world
